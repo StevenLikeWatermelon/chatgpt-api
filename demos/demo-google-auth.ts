@@ -26,15 +26,17 @@ async function main() {
   await api.initSession()
 
   const prompt =
-    'Write a python version of bubble sort. Do not include example usage.'
+    '机床厂计划全年生产机床480台，实际提前2个月完成全年任务的1.5倍，实际平均每月完成多少台?'
 
-  const res = await oraPromise(api.sendMessage(prompt), {
-    text: prompt
+  const res = await api.sendMessage(prompt, {
+    onProgress: (partialResponse) => {
+      console.log('progress', partialResponse?.response)
+    }
   })
   console.log(res.response)
 
   // close the browser at the end
-  await api.closeSession()
+  // await api.closeSession()
 }
 
 main().catch((err) => {
